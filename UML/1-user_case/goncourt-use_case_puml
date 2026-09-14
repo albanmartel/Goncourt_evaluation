@@ -1,0 +1,96 @@
+@startuml
+' Orientation du diagramme (de gauche à droite)
+left to right direction
+
+' Configuration du style visuel (optionnel)
+skinparam packageStyle rectangle
+
+' --------------------------------------------------
+' 1. DÉFINITION DES ACTEURS
+' --------------------------------------------------
+' Acteurs principaux (à gauche)
+actor "Public" as a_user
+actor "Membre Goncourt" as b_member
+actor "Président Goncourt" as c_admin
+
+' Acteur secondaire ou système externe (à droite)
+actor "Livres Publiés récemment" as publication << livre >>
+
+' --------------------------------------------------
+' 2. DÉLIMITATION DU SYSTÈME (Frontière)
+' --------------------------------------------------
+rectangle "Sélection Prix Littéraire" {
+
+    ' Déclaration des cas d'utilisation pour les utilisateurs
+    usecase "Lire des livres récents" as UC_A_Lire
+    usecase "Consulter liste des membres" as UC_B_Members    
+    usecase "Consulter la sélection livre" as UC_C_Consulter
+
+    ' Déclaration des cas d'utilisation pour les membres du Goncourt
+    ' Cas d'utilisation inclus ou d'extension
+    usecase "S'authentifier" as UC_D_Auth
+    usecase "Sélectionner livre" as UC_E_Select
+    usecase "Lire les livres sélectionnés" as UC_F_Lire
+    usecase "Voter pour un livre sélectionner" as UC_G_Voter
+
+    ' Déclaration des cas d'utilisation pour le président du Goncourt
+    usecase "Gérer les sélections" as UC_I_Admin_Select
+    usecase "Ouvrir selection" as UC_J_open
+    usecase "Enregistrer la sélection" as UC_K_record
+    usecase "Annoncer le lauréat" as UC_L_laureat
+    
+    
+    ' --------------------------------------------------
+    ' 3. RELATIONS ENTRE CAS D'UTILISATION
+    ' --------------------------------------------------
+
+    ' Inclusion obligatoire (<<include>>)
+    UC_E_Select .> UC_D_Auth : <<include>
+
+    ' Inclusion obligatoire (<<include>>)
+    UC_E_Select .> UC_A_Lire : <<include>>
+    
+    ' Extension optionnelle (<<extend>>)
+    UC_G_Voter .> UC_F_Lire : <<extend>>
+
+    ' Inclusion obligatoire (<<include>>)
+    UC_J_open .> UC_I_Admin_Select: <<include>>
+
+    ' Inclusion obligatoire (<<include>>)
+    UC_K_record .> UC_J_open: <<include>>
+
+    ' Extension optionnelle (<<extend>>)
+    UC_L_laureat .> UC_K_record : <<extend>>
+
+}
+
+' --------------------------------------------------
+' 4. RELATIONS ACTEURS <-> CAS D'UTILISATION
+' --------------------------------------------------
+' Associations de l'acteur principal
+a_user --> UC_A_Lire
+a_user --> UC_B_Members
+a_user --> UC_C_Consulter
+
+' Association avec le système externe
+UC_A_Lire --> publication
+
+' Associations des membres'
+b_member --> UC_E_Select
+b_member --> UC_F_Lire
+b_member --> UC_G_Voter
+
+' Associations du président goncourt
+c_admin --> UC_J_open
+c_admin --> UC_K_record
+c_admin --> UC_L_laureat
+
+' --------------------------------------------------
+' 5. HÉRITAGE (Optionnel)
+' --------------------------------------------------
+' Un membres de l'académie goncourt possède tous les droits de l'Utilisateur
+' Le président de l'académie Goncourt goncourt possède tous les droits d'un mebre de l'académie Goncourt
+ b_member --|> a_user
+ c_admin --|> b_member
+
+@enduml
