@@ -1,0 +1,6 @@
+cffi~=2.0
+cryptography~=46.0
+pycparser~=2.23
+PyMySQL~=1.1
+types-PyMySQL~=1.1
+python-dotenv~=1.0
