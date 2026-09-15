@@ -27,7 +27,7 @@
          <Type>BYTE</Type>
       </Column>
       <Column>
-         <Name>membre_description</Name>
+         <Name>membre_historique</Name>
          <Type>TEXT</Type>
       </Column>
       <PK>
@@ -35,22 +35,22 @@
       </PK>
    </Table>
    <Table>
-      <Name>person</Name>
+      <Name>personne</Name>
       <Column>
-         <Name>person_id</Name>
+         <Name>personne_id</Name>
          <Type>BYTE</Type>
       </Column>
       <Column>
-         <Name>person_first_name</Name>
+         <Name>personne_prenom</Name>
          <Type>VARCHAR(100)</Type>
          <Property>NOT NULL</Property>
       </Column>
       <Column>
-         <Name>person_last_name</Name>
+         <Name>personne_nom</Name>
          <Type>VARCHAR(50)</Type>
       </Column>
       <PK>
-         <Key>person_id</Key>
+         <Key>personne_id</Key>
       </PK>
    </Table>
    <Table>
@@ -94,15 +94,7 @@
          <Type>TEXT</Type>
       </Column>
       <Column>
-         <Name>auteur_first_name</Name>
-         <Type>VARCHAR(100)</Type>
-      </Column>
-      <Column>
-         <Name>auteur_last_name</Name>
-         <Type>VARCHAR(100)</Type>
-      </Column>
-      <Column>
-         <Name>person_id</Name>
+         <Name>personne_id</Name>
          <Type>BYTE</Type>
          <Property>NOT NULL</Property>
       </Column>
@@ -110,8 +102,8 @@
          <Key>auteur_id</Key>
       </PK>
       <FK>
-         <Key>person_id</Key>
-         <Reference>person(person_id)</Reference>
+         <Key>personne_id</Key>
+         <Reference>personne(personne_id)</Reference>
       </FK>
    </Table>
    <Table>
@@ -126,14 +118,6 @@
       </Column>
       <Column>
          <Name>livre_resume</Name>
-         <Type>TEXT</Type>
-      </Column>
-      <Column>
-         <Name>livre_age</Name>
-         <Type>SMALLINT</Type>
-      </Column>
-      <Column>
-         <Name>livre_personnages</Name>
          <Type>TEXT</Type>
       </Column>
       <Column>
@@ -171,6 +155,33 @@
       </Column>
       <PK>
          <Key>prix_litteraire_id</Key>
+      </PK>
+      <FK>
+         <Key>isbn_livre</Key>
+         <Reference>livre(isbn_livre)</Reference>
+      </FK>
+   </Table>
+   <Table>
+      <Name>personnage</Name>
+      <Column>
+         <Name>personnage_id</Name>
+         <Type>BYTE</Type>
+      </Column>
+      <Column>
+         <Name>personnage_name</Name>
+         <Type>VARCHAR(50)</Type>
+      </Column>
+      <Column>
+         <Name>personnage_description</Name>
+         <Type>TEXT</Type>
+      </Column>
+      <Column>
+         <Name>isbn_livre</Name>
+         <Type>VARCHAR(13)</Type>
+         <Property>NOT NULL</Property>
+      </Column>
+      <PK>
+         <Key>personnage_id</Key>
       </PK>
       <FK>
          <Key>isbn_livre</Key>
@@ -235,6 +246,11 @@
          <Type>SMALLINT</Type>
       </Column>
       <Column>
+         <Name>parution_isbn</Name>
+         <Type>INT</Type>
+         <Property>NOT NULL UNIQUE</Property>
+      </Column>
+      <Column>
          <Name>parution_date</Name>
          <Type>DATE</Type>
       </Column>
@@ -247,9 +263,8 @@
          <Type>VARCHAR(50)</Type>
       </Column>
       <Column>
-         <Name>parution_isbn</Name>
-         <Type>INT</Type>
-         <Property>NOT NULL UNIQUE</Property>
+         <Name>parution_age</Name>
+         <Type>VARCHAR(50)</Type>
       </Column>
       <PK>
          <Key>isbn_livre, editeur_id</Key>
@@ -320,7 +335,7 @@
    <Table>
       <Name>authentifier</Name>
       <Column>
-         <Name>person_id</Name>
+         <Name>personne_id</Name>
          <Type>BYTE</Type>
       </Column>
       <Column>
@@ -341,14 +356,14 @@
          <Type>VARCHAR(50)</Type>
       </Column>
       <PK>
-         <Key>person_id, utilisateur_id</Key>
+         <Key>personne_id, utilisateur_id</Key>
       </PK>
       <AK>
          <Key>authentifier_login</Key>
       </AK>
       <FK>
-         <Key>person_id</Key>
-         <Reference>person(person_id)</Reference>
+         <Key>personne_id</Key>
+         <Reference>personne(personne_id)</Reference>
       </FK>
       <FK>
          <Key>utilisateur_id</Key>
