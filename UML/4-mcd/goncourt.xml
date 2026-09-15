@@ -27,6 +27,10 @@
          <Type>BYTE</Type>
       </Column>
       <Column>
+         <Name>membre_profession</Name>
+         <Type>VARCHAR(50)</Type>
+      </Column>
+      <Column>
          <Name>membre_historique</Name>
          <Type>TEXT</Type>
       </Column>
