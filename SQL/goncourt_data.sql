@@ -39,3 +39,31 @@ INSERT INTO personne (personne_id, personne_prenom, personne_nom) VALUES
 (24, 'Françoise', 'Chandernagor'),
 (25, 'Philippe', 'Claudel'),
 (26, 'Pierre', 'Assouline');
+
+-- Remplissage de la table de correspondance auteur
+INSERT INTO `auteur` (`auteur_id`, `auteur_biographie`, `personne_id`) VALUES
+(1, NULL, 1),
+(2, NULL, 2),
+(3, NULL, 3),
+(4, NULL, 4),
+(5, NULL, 5),
+(6, NULL, 6),
+(7, NULL, 7),
+(8, NULL, 8),
+(9, NULL, 9),
+(10, NULL, 10),
+(11, NULL, 11),
+(12, NULL, 12),
+(13, NULL, 13),
+(14, NULL, 14),
+(15, NULL, 15),
+(16, NULL, 16),
+(17, NULL, 17),
+(18, NULL, 18),
+(19, NULL, 19),
+(20, NULL, 20),
+(21, NULL, 21),
+(22, NULL, 22),
+(23, NULL, 23),
+(24, NULL, 24),
+(25, NULL, 25);
