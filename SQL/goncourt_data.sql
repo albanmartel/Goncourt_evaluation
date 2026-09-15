@@ -10,3 +10,32 @@ INSERT INTO membre (membre_id, membre_profession, membre_historique) VALUES
 (24, 'Ecrivain, Ancien membre du Conseil d\'État', 'succédant à Emmanuel Roblès au 8ème couvert. En est la Vice-Présidente.'),
 (25, 'Écrivain, réalisateur, dramaturge', 'succédant à Jorge Semprun au 9ème couvert. Après en avoir été le Trésorier, puis Secrétaire général, il est élu Président de la Société littéraire le 13 mai 2024.'),
 (26, 'Ecrivain, journaliste', 'succédant à Françoise Mallet-Joris au 10ème couvert');
+
+-- Remplissage table personne
+INSERT INTO personne (personne_id, personne_prenom, personne_nom) VALUES
+(1, 'Boris', 'Bergmann'),
+(2, 'Louise', 'Chennevière'),
+(3, 'Ananda', 'Devi'),
+(4, 'Sonia', 'Devillers'),
+(5, 'Anne', 'Godard'),
+(6, 'Olivier', 'Grondeau'),
+(7, 'Yannick', 'Haenel'),
+(8, 'Lilia', 'Hassaine'),
+(9, 'Philippe', 'Jaenada'),
+(10, 'Jean-Yves', 'Jouannais'),
+(11, 'Emma', 'Marsantes'),
+(12, 'Clémentine', 'Mélois'),
+(13, 'Thélyson', 'Orélien'),
+(14, 'Sylvain', 'Prudhomme'),
+(15, 'Olivier', 'Rolin'),
+(16, 'Patrice', 'Trigano'),
+(17, 'Pascal', 'Bruckner'),
+(18, 'Eric-Emmanuel', 'Schmitt'),
+(19, 'Didier', 'Decoin'),
+(20, 'Paule', 'Constant'),
+(21, 'Christine', 'Angot'),
+(22, 'Tahar', 'Ben Jelloun'),
+(23, 'Camille', 'Laurent'),
+(24, 'Françoise', 'Chandernagor'),
+(25, 'Philippe', 'Claudel'),
+(26, 'Pierre', 'Assouline');
