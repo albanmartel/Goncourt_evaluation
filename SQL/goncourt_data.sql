@@ -1,0 +1,12 @@
+-- Remplissage table membre du jury Goncourt
+INSERT INTO membre (membre_id, membre_profession, membre_historique) VALUES
+(17, 'Romancier, philosophe et essayiste', 'succédant à Bernard Pivot au 1er couvert'),
+(18, 'Dramaturge, philosophe, écrivain', 'succédant à Edmonde Charles-Roux au 2ème couvert. Élu trésorier le 6 mai 2025'),
+(19, 'Écrivain, scénariste', 'succédant à Jean Cayrol au 3ème couvert. Après en avoir été le Secrétaire général il était Président de la Société littéraire du 20 janvier 2020 au 13 mai 2024. '),
+(20, 'Écrivain', 'succédant à Robert Sabatier au 4ème couvert'),
+(21, 'écrivaine', 'succédant à Patrick Rambaud au 5ème couvert.'),
+(22, 'Écrivain, poète et peintre.', 'succédant à François Nourissier au 6ème couvert'),
+(23, 'Écrivain', 'succédant à Virginie Despentes au 7ème couvert. Élue secrétaire générale le 13 mai 2024.'),
+(24, 'Ecrivain, Ancien membre du Conseil d\'État', 'succédant à Emmanuel Roblès au 8ème couvert. En est la Vice-Présidente.'),
+(25, 'Écrivain, réalisateur, dramaturge', 'succédant à Jorge Semprun au 9ème couvert. Après en avoir été le Trésorier, puis Secrétaire général, il est élu Président de la Société littéraire le 13 mai 2024.'),
+(26, 'Ecrivain, journaliste', 'succédant à Françoise Mallet-Joris au 10ème couvert');
