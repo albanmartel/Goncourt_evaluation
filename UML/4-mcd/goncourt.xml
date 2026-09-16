@@ -88,6 +88,16 @@
       </PK>
    </Table>
    <Table>
+      <Name>Selection</Name>
+      <Column>
+         <Name>selection_id</Name>
+         <Type>BYTE</Type>
+      </Column>
+      <PK>
+         <Key>selection_id</Key>
+      </PK>
+   </Table>
+   <Table>
       <Name>auteur</Name>
       <Column>
          <Name>auteur_id</Name>
@@ -113,7 +123,7 @@
    <Table>
       <Name>livre</Name>
       <Column>
-         <Name>isbn_livre</Name>
+         <Name>livre_id</Name>
          <Type>VARCHAR(13)</Type>
       </Column>
       <Column>
@@ -130,7 +140,7 @@
          <Property>NOT NULL</Property>
       </Column>
       <PK>
-         <Key>isbn_livre</Key>
+         <Key>livre_id</Key>
       </PK>
       <FK>
          <Key>auteur_id</Key>
@@ -153,7 +163,7 @@
          <Property>NOT NULL</Property>
       </Column>
       <Column>
-         <Name>isbn_livre</Name>
+         <Name>livre_id</Name>
          <Type>VARCHAR(13)</Type>
          <Property>NOT NULL</Property>
       </Column>
@@ -161,8 +171,8 @@
          <Key>prix_litteraire_id</Key>
       </PK>
       <FK>
-         <Key>isbn_livre</Key>
-         <Reference>livre(isbn_livre)</Reference>
+         <Key>livre_id</Key>
+         <Reference>livre(livre_id)</Reference>
       </FK>
    </Table>
    <Table>
@@ -180,7 +190,7 @@
          <Type>TEXT</Type>
       </Column>
       <Column>
-         <Name>isbn_livre</Name>
+         <Name>livre_id</Name>
          <Type>VARCHAR(13)</Type>
          <Property>NOT NULL</Property>
       </Column>
@@ -188,8 +198,8 @@
          <Key>personnage_id</Key>
       </PK>
       <FK>
-         <Key>isbn_livre</Key>
-         <Reference>livre(isbn_livre)</Reference>
+         <Key>livre_id</Key>
+         <Reference>livre(livre_id)</Reference>
       </FK>
    </Table>
    <Table>
@@ -242,7 +252,7 @@
    <Table>
       <Name>publier</Name>
       <Column>
-         <Name>isbn_livre</Name>
+         <Name>livre_id</Name>
          <Type>VARCHAR(13)</Type>
       </Column>
       <Column>
@@ -250,9 +260,13 @@
          <Type>SMALLINT</Type>
       </Column>
       <Column>
+         <Name>parution_id</Name>
+         <Type>BYTE</Type>
+         <Property>NOT NULL UNIQUE</Property>
+      </Column>
+      <Column>
          <Name>parution_isbn</Name>
          <Type>INT</Type>
-         <Property>NOT NULL UNIQUE</Property>
       </Column>
       <Column>
          <Name>parution_date</Name>
@@ -271,14 +285,14 @@
          <Type>VARCHAR(50)</Type>
       </Column>
       <PK>
-         <Key>isbn_livre, editeur_id</Key>
+         <Key>livre_id, editeur_id</Key>
       </PK>
       <AK>
-         <Key>parution_isbn</Key>
+         <Key>parution_id</Key>
       </AK>
       <FK>
-         <Key>isbn_livre</Key>
-         <Reference>livre(isbn_livre)</Reference>
+         <Key>livre_id</Key>
+         <Reference>livre(livre_id)</Reference>
       </FK>
       <FK>
          <Key>editeur_id</Key>
@@ -288,24 +302,24 @@
    <Table>
       <Name>selectionner</Name>
       <Column>
-         <Name>isbn_livre</Name>
+         <Name>livre_id</Name>
          <Type>VARCHAR(13)</Type>
       </Column>
       <Column>
-         <Name>membre_id</Name>
+         <Name>selection_id</Name>
          <Type>BYTE</Type>
       </Column>
       <Column>
-         <Name>session_id</Name>
+         <Name>session_record_id</Name>
          <Type>BYTE</Type>
-         <Property>UNIQUE</Property>
+         <Property>NOT NULL UNIQUE</Property>
       </Column>
       <Column>
          <Name>session_date</Name>
          <Type>DATE</Type>
       </Column>
       <Column>
-         <Name>session_vote</Name>
+         <Name>votes_laureat</Name>
          <Type>SMALLINT</Type>
       </Column>
       <Column>
@@ -317,23 +331,23 @@
          <Type>BYTE</Type>
       </Column>
       <Column>
-         <Name>session_est_laureat</Name>
-         <Type>BYTE</Type>
+         <Name>livre_id_laureat</Name>
+         <Type>CHAR(50)</Type>
          <Property>0</Property>
       </Column>
       <PK>
-         <Key>isbn_livre, membre_id</Key>
+         <Key>livre_id, selection_id</Key>
       </PK>
       <AK>
-         <Key>session_id</Key>
+         <Key>session_record_id</Key>
       </AK>
       <FK>
-         <Key>isbn_livre</Key>
-         <Reference>livre(isbn_livre)</Reference>
+         <Key>livre_id</Key>
+         <Reference>livre(livre_id)</Reference>
       </FK>
       <FK>
-         <Key>membre_id</Key>
-         <Reference>membre(membre_id)</Reference>
+         <Key>selection_id</Key>
+         <Reference>Selection(selection_id)</Reference>
       </FK>
    </Table>
    <Table>
@@ -372,6 +386,28 @@
       <FK>
          <Key>utilisateur_id</Key>
          <Reference>utilisateur(utilisateur_id)</Reference>
+      </FK>
+   </Table>
+   <Table>
+      <Name>participer</Name>
+      <Column>
+         <Name>membre_id</Name>
+         <Type>BYTE</Type>
+      </Column>
+      <Column>
+         <Name>selection_id</Name>
+         <Type>BYTE</Type>
+      </Column>
+      <PK>
+         <Key>membre_id, selection_id</Key>
+      </PK>
+      <FK>
+         <Key>membre_id</Key>
+         <Reference>membre(membre_id)</Reference>
+      </FK>
+      <FK>
+         <Key>selection_id</Key>
+         <Reference>Selection(selection_id)</Reference>
       </FK>
    </Table>
 </Database>
