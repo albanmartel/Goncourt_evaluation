@@ -1,11 +1,11 @@
-CREATE DATABASE IF NOT EXISTS test3 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci;
-USE test3;
+CREATE DATABASE IF NOT EXISTS goncourt_selection DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci;
+USE goncourt_selection;
 
 CREATE TABLE auteur (
   auteur_id smallint(6) NOT NULL,
   auteur_biographie text DEFAULT NULL,
   personne_id smallint(6) NOT NULL
-) 
+);
 
 CREATE TABLE authentification (
   personne_id smallint(6) NOT NULL,
@@ -13,66 +13,67 @@ CREATE TABLE authentification (
   authentification_login varchar(50) DEFAULT NULL,
   authentification_mot_de_passe varchar(50) DEFAULT NULL,
   authentification_role varchar(50) DEFAULT NULL
-) 
+); 
 
 CREATE TABLE couvert (
   auteur_id smallint(6) NOT NULL,
   membre_id smallint(6) NOT NULL,
   couvert_num smallint(6) NOT NULL,
   couvert_date_debut date DEFAULT NULL,
-  couvert_date_fin varchar(50) DEFAULT NULL,
+  couvert_date_fin date DEFAULT NULL,
   couvert_fonction varchar(100) DEFAULT NULL,
   couvert_est_president smallint(6) DEFAULT 0
-) 
+);
 
 CREATE TABLE editeur (
   editeur_id smallint(6) NOT NULL,
   editeur_nom varchar(50) DEFAULT NULL,
   editeur_francophone smallint(6) DEFAULT 0
-) 
+); 
 
 CREATE TABLE livre (
   livre_id smallint(6) NOT NULL,
   livre_titre varchar(50) DEFAULT NULL,
   livre_resume text DEFAULT NULL,
   auteur_id smallint(6) NOT NULL
-) 
+); 
 
 CREATE TABLE membre (
   membre_id smallint(6) NOT NULL,
   membre_profession varchar(50) DEFAULT NULL,
   membre_historique text DEFAULT NULL
-) 
+); 
 
 CREATE TABLE parution (
+  parution_id smallint(6) NOT NULL,
   livre_id smallint(6) NOT NULL,
   editeur_id smallint(6) NOT NULL,
-  parution_isbn int(11) NOT NULL,
+  parution_isbn varchar(13) DEFAULT NULL,
   parution_date date DEFAULT NULL,
   parution_nbr_page smallint(6) DEFAULT NULL,
-  parution_prix varchar(50) DEFAULT NULL,
+  parution_prix decimal(10,2) DEFAULT NULL,
   parution_age varchar(50) DEFAULT NULL
-) 
+);
 
 CREATE TABLE personnage (
   personnage_id smallint(6) NOT NULL,
   personnage_name varchar(50) DEFAULT NULL,
   personnage_description text DEFAULT NULL,
   livre_id smallint(6) NOT NULL
-) 
+); 
 
 CREATE TABLE personne (
   personne_id smallint(6) NOT NULL,
   personne_prenom varchar(100) NOT NULL,
   personne_nom varchar(50) DEFAULT NULL
-) 
+); 
 
 CREATE TABLE prix_litteraire (
   prix_litteraire_id varchar(50) NOT NULL,
   prix_litteraire_nom varchar(50) DEFAULT NULL,
   prix_litteraire_date date NOT NULL,
   livre_id smallint(6) NOT NULL
-) 
+); 
 
 CREATE TABLE session (
   livre_id smallint(6) NOT NULL,
@@ -83,7 +84,7 @@ CREATE TABLE session (
   session_rang varchar(50) DEFAULT NULL,
   session_nbr_livres smallint(6) NOT NULL,
   session_est_laureat smallint(6) DEFAULT 0
-) 
+); 
 
 CREATE TABLE utilisateur (
   utilisateur_id smallint(6) NOT NULL,
@@ -92,7 +93,7 @@ CREATE TABLE utilisateur (
   utilisateur_code_postal char(5) DEFAULT NULL,
   utilisateur_courriel varchar(100) DEFAULT NULL,
   utilisateur_telephone char(10) DEFAULT NULL
-) 
+); 
 
 
 ALTER TABLE auteur
@@ -105,9 +106,9 @@ ALTER TABLE authentification
   ADD KEY utilisateur_id (utilisateur_id);
 
 ALTER TABLE couvert
-  ADD PRIMARY KEY (auteur_id,membre_id),
-  ADD UNIQUE KEY couvert_num (couvert_num),
-  ADD KEY membre_id (membre_id);
+  ADD PRIMARY KEY (auteur_id),
+  ADD KEY membre_id (membre_id),
+  ADD KEY auteur_id (auteur_id,membre_id);
 
 ALTER TABLE editeur
   ADD PRIMARY KEY (editeur_id);
@@ -121,8 +122,9 @@ ALTER TABLE membre
 
 ALTER TABLE parution
   ADD PRIMARY KEY (livre_id,editeur_id),
-  ADD UNIQUE KEY parution_isbn (parution_isbn),
-  ADD KEY editeur_id (editeur_id);
+  ADD UNIQUE KEY parution_id (parution_id),
+  ADD KEY livre_id (livre_id),
+  ADD KEY parution_ibfk_2 (editeur_id);
 
 ALTER TABLE personnage
   ADD PRIMARY KEY (personnage_id),
