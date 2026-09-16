@@ -33,7 +33,7 @@ CREATE TABLE editeur (
 
 CREATE TABLE livre (
   livre_id smallint(6) NOT NULL,
-  livre_titre varchar(50) DEFAULT NULL,
+  livre_titre varchar(100) DEFAULT NULL,
   livre_resume text DEFAULT NULL,
   auteur_id smallint(6) NOT NULL
 ); 
