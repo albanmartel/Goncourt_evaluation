@@ -88,13 +88,17 @@
       </PK>
    </Table>
    <Table>
-      <Name>Selection</Name>
+      <Name>saison</Name>
       <Column>
-         <Name>selection_id</Name>
+         <Name>saison_id</Name>
+         <Type>BYTE</Type>
+      </Column>
+      <Column>
+         <Name>saison_annee</Name>
          <Type>BYTE</Type>
       </Column>
       <PK>
-         <Key>selection_id</Key>
+         <Key>saison_id</Key>
       </PK>
    </Table>
    <Table>
@@ -118,6 +122,33 @@
       <FK>
          <Key>personne_id</Key>
          <Reference>personne(personne_id)</Reference>
+      </FK>
+   </Table>
+   <Table>
+      <Name>session</Name>
+      <Column>
+         <Name>session_id</Name>
+         <Type>BYTE</Type>
+      </Column>
+      <Column>
+         <Name>selection_numero</Name>
+         <Type>BYTE</Type>
+      </Column>
+      <Column>
+         <Name>session_date</Name>
+         <Type>DATE</Type>
+      </Column>
+      <Column>
+         <Name>saison_id</Name>
+         <Type>BYTE</Type>
+         <Property>NOT NULL</Property>
+      </Column>
+      <PK>
+         <Key>session_id</Key>
+      </PK>
+      <FK>
+         <Key>saison_id</Key>
+         <Reference>saison(saison_id)</Reference>
       </FK>
    </Table>
    <Table>
@@ -300,54 +331,41 @@
       </FK>
    </Table>
    <Table>
-      <Name>selectionner</Name>
+      <Name>concourir</Name>
       <Column>
          <Name>livre_id</Name>
          <Type>VARCHAR(13)</Type>
       </Column>
       <Column>
-         <Name>selection_id</Name>
+         <Name>session_id</Name>
          <Type>BYTE</Type>
       </Column>
       <Column>
-         <Name>session_record_id</Name>
+         <Name>coucours_id</Name>
          <Type>BYTE</Type>
          <Property>NOT NULL UNIQUE</Property>
       </Column>
       <Column>
-         <Name>session_date</Name>
-         <Type>DATE</Type>
-      </Column>
-      <Column>
-         <Name>votes_laureat</Name>
+         <Name>concours_votes</Name>
          <Type>SMALLINT</Type>
       </Column>
       <Column>
-         <Name>session_rang</Name>
+         <Name>concours_resultat</Name>
          <Type>VARCHAR(50)</Type>
       </Column>
-      <Column>
-         <Name>session_nbr_livres</Name>
-         <Type>BYTE</Type>
-      </Column>
-      <Column>
-         <Name>livre_id_laureat</Name>
-         <Type>CHAR(50)</Type>
-         <Property>0</Property>
-      </Column>
       <PK>
-         <Key>livre_id, selection_id</Key>
+         <Key>livre_id, session_id</Key>
       </PK>
       <AK>
-         <Key>session_record_id</Key>
+         <Key>coucours_id</Key>
       </AK>
       <FK>
          <Key>livre_id</Key>
          <Reference>livre(livre_id)</Reference>
       </FK>
       <FK>
-         <Key>selection_id</Key>
-         <Reference>Selection(selection_id)</Reference>
+         <Key>session_id</Key>
+         <Reference>session(session_id)</Reference>
       </FK>
    </Table>
    <Table>
@@ -389,25 +407,25 @@
       </FK>
    </Table>
    <Table>
-      <Name>participer</Name>
+      <Name>organiser</Name>
       <Column>
          <Name>membre_id</Name>
          <Type>BYTE</Type>
       </Column>
       <Column>
-         <Name>selection_id</Name>
+         <Name>saison_id</Name>
          <Type>BYTE</Type>
       </Column>
       <PK>
-         <Key>membre_id, selection_id</Key>
+         <Key>membre_id, saison_id</Key>
       </PK>
       <FK>
          <Key>membre_id</Key>
          <Reference>membre(membre_id)</Reference>
       </FK>
       <FK>
-         <Key>selection_id</Key>
-         <Reference>Selection(selection_id)</Reference>
+         <Key>saison_id</Key>
+         <Reference>saison(saison_id)</Reference>
       </FK>
    </Table>
 </Database>
