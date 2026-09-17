@@ -17,3 +17,6 @@ class Member(Author):
     """
     professionnal_activity: str = "unknown"
     member_history_context: str = "unknown"
+
+    def toString(self):
+        return f"{self.professionnal_activity} {self.member_history_context}"
