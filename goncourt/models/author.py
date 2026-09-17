@@ -2,7 +2,6 @@
 
 """
 Classe Author, fille de la classe User
-Classe Author, fille de la classe User
 """
 
 from dataclasses import dataclass
