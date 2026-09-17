@@ -7,7 +7,7 @@ Application de gestion de la selection du prix goncourt
 
 from business.goncourt import Goncourt
 
-def main() ->
+def main() -> None:
     """Programme principal."""
     print("""\
     --------------------------
