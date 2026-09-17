@@ -1,44 +1,106 @@
 @startuml
-abstract class Person
-{
+skinparam classAttributeIconSize 0
 
-    -string first_name
-    -string last_name
-    -integer age
+abstract class Person {
+  - string first_name
+  - string last_name
 }
 
-class Teacher 
-{
-    -date start_date
+class User {
+  - string street
+  - string city
+  - string postal_code
+  - string email
+  - string telephone_number
 }
 
-class Student
-{
-    -integer student_nbr
+class Author {
+  - string biography
 }
 
-class Address
-{
-    -string street
-    -string city
-    -integer postal_code
+class Member {
+  - string professionnal_activity
+  - string context
 }
- 
-class Course
-{
-    -string name
-    -date start_date
-    -date end_date
-} 
+
+class Authenticate {
+  - string login
+  - string password
+  - string authenticate_rights
+}
+
+class Book {
+  - string book_title
+  - string book_summary
+  - string book_isbn
+  - date publication_date
+  - int numb_pages
+  - float book_price
+  - int minimal_age
+}
+
+class Publisher {
+  - string publisher_name
+}
+
+class Character {
+  - string character_name
+  - string character_description
+}
+
+class Season {
+  - string year
+}
+
+class Session {
+  - int session_numb
+  - date session_date
+}
+
+class Examination {
+  - int numb_votes
+  - string examination_status
+}
+
+class Literary_Prize {
+  - string prize_name
+  - date prize_date
+}
+
+class Cutelery {
+  - date start
+  - date stop
+  - string fonction
+  - boolean is_president
+}
 
 
-Person <|-- Student 
+Person <|-- User 
 
-Person <|-- Teacher
+User <|-- Author
 
-Person "1" --> "1" Address : lives >
+Author <|-- Member
 
-Student "0..n" <--> "0..n" Course : takes >
+User "1" -- "1..*" Authenticate
 
-Course "1..n" <--u> "1" Teacher : teaches <
+Author "1" -- "0..*" Book : writes >
+
+Book "1" -- "0..*" Character : contains >
+
+Book "1" -- "0..*" Literary_Prize : wins >
+
+Publisher "1" -- "0..*" Book : publishes >
+
+Cutelery "1" -- "1..*" Member : brings >
+
+Season "1" -- "1..*" Session : made of >
+
+Session "1" -- "1..*" Examination : takes >
+
+Book "1" -- "0..*" Examination : convinces>
+
+Member "0..*" -- "1..*" Season : participes >
+
+Member "0..*" -- "1..*" Author : are >
+
 @enduml
