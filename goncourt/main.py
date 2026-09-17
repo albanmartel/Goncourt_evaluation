@@ -15,6 +15,7 @@ def main() -> None:
     --------------------------""")
 
     goncourt: Goncourt = Goncourt()
+    print(goncourt.get_author_by_id(1))
 
     print("""Fin de l'application²²²²²²²²²²²²²²²²²²²²²²""")
 
