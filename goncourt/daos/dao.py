@@ -26,32 +26,34 @@ if not os.getenv("MYSQL_PASSWORD"):
 @dataclass
 class Dao[T](ABC):
     try :
-        """Cette connection a été écrite par l'IA gemini"""
+        database_u: str = os.getenv("MYSQL_DATABASE_2")
+        print(database_u)
+        """Cette connexion a été écrite par l'IA gemini"""
         connection: ClassVar[pymysql.Connection] = pymysql.connect(
             host=os.getenv("MYSQL_HOST", "mariadb"),
             port=int(os.getenv("MYSQL_PORT", 3306)),
-            user=os.getenv("MYSQL_USER", "ecole"),
+            user=os.getenv("MYSQL_USER", "goncourt_selection"),
             password=os.getenv("MYSQL_PASSWORD", ""),
-            database=os.getenv("MYSQL_DATABASE_1", "ecole"),
+            database=os.getenv("MYSQL_DATABASE_2", "goncourt_selection"),
             cursorclass=pymysql.cursors.DictCursor,
-            autocommit=False,  # Recommandé si tu gères des transactions (START TRANSACTION / COMMIT)
+            autocommit=False,  # Recommandé si tu gères des transactions (START TRANSACTION / COMMIT
         )
     except pymysql.err.Error as e:
         connection = None
         print(f"Erreur de connexion à MariaDB : {e}")
-        print("Pas de connexion possible avec la base de données \"école\"\nFin du programme")
+        print(f"Pas de connexion possible avec la base de données {database_u}\nFin du programme")
        # Fin du programme avec code exit 1
         sys.exit(1)
 
     except MySQLError as e:
         connection = None
         print(f"Erreur MySQL : {e}")
-        print("Pas de connexion possible avec la base de données \"école\"\nFin du programme")
+        print(f"Pas de connexion possible avec la base de données {database_u}\nFin du programme")
         # Fin du programme avec code exit 1
         sys.exit(1)
 
 
-        @abstractmethod
+    @abstractmethod
     def create(self, obj: T) -> int:
         """Crée l'entité en BD correspondant à l'objet obj
 
