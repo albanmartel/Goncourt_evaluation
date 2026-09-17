@@ -16,3 +16,6 @@ class Author(User):
     Plutôt tiré par les cheveux comme conception
     """
     author_biography: str = "unknown"
+
+    def toString(self):
+        return f"{self.author_biography}"
