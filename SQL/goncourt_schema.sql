@@ -9,6 +9,7 @@ CREATE TABLE auteur (
 );
 
 CREATE TABLE authentification (
+  authentification_id smallint(6) NOT NULL,
   personne_id smallint(6) NOT NULL,
   utilisateur_id smallint(6) NOT NULL,
   authentification_login varchar(50) DEFAULT NULL,
@@ -25,6 +26,7 @@ CREATE TABLE concours (
 );
 
 CREATE TABLE couvert (
+  couvert_id smallint(6) NOT NULL,
   auteur_id smallint(6) NOT NULL,
   membre_id smallint(6) NOT NULL,
   couvert_num smallint(6) NOT NULL,
@@ -78,7 +80,7 @@ CREATE TABLE personne (
 );
 
 CREATE TABLE prix_litteraire (
-  prix_litteraire_id varchar(50) NOT NULL,
+  prix_litteraire_id smallint(6) NOT NULL,
   prix_litteraire_nom varchar(50) DEFAULT NULL,
   prix_litteraire_date date NOT NULL,
   livre_id smallint(6) NOT NULL
@@ -111,18 +113,21 @@ ALTER TABLE auteur
   ADD KEY personne_id (personne_id);
 
 ALTER TABLE authentification
-  ADD PRIMARY KEY (personne_id,utilisateur_id),
-  ADD UNIQUE KEY authentification_login (authentification_login),
-  ADD KEY utilisateur_id (utilisateur_id);
+  ADD PRIMARY KEY (authentification_id),
+  ADD UNIQUE KEY utilisateur_id (utilisateur_id),
+  ADD KEY personne_id (personne_id);
 
 ALTER TABLE concours
   ADD PRIMARY KEY (coucours_id),
-  ADD UNIQUE KEY coucours_id (coucours_id);
+  ADD UNIQUE KEY coucours_id (coucours_id),
+  ADD KEY concours_ibfk_1 (session_id),
+  ADD KEY concours_ibfk_2 (livre_id);
 
 ALTER TABLE couvert
-  ADD PRIMARY KEY (auteur_id),
-  ADD KEY membre_id (membre_id),
-  ADD KEY auteur_id (auteur_id,membre_id);
+  ADD PRIMARY KEY (auteur_id,membre_id),
+  ADD UNIQUE KEY couvert_id (couvert_id),
+  ADD KEY auteur_id (auteur_id),
+  ADD KEY membre_id (membre_id);
 
 ALTER TABLE editeur
   ADD PRIMARY KEY (editeur_id);
@@ -167,6 +172,49 @@ ALTER TABLE utilisateur
 
 
 ALTER TABLE auteur
+  MODIFY auteur_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE authentification
+  MODIFY authentification_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE concours
+  MODIFY coucours_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE couvert
+  MODIFY couvert_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE editeur
+  MODIFY editeur_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE livre
+  MODIFY livre_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE membre
+  MODIFY membre_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE parution
+  MODIFY parution_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE personnage
+  MODIFY personnage_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE personne
+  MODIFY personne_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE prix_litteraire
+  MODIFY prix_litteraire_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE saison
+  MODIFY saison_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE session
+  MODIFY session_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE utilisateur
+  MODIFY utilisateur_id smallint(6) NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE auteur
   ADD CONSTRAINT auteur_ibfk_1 FOREIGN KEY (personne_id) REFERENCES personne (personne_id);
 
 ALTER TABLE authentification
@@ -196,4 +244,3 @@ ALTER TABLE prix_litteraire
 
 ALTER TABLE session
   ADD CONSTRAINT session_ibfk_1 FOREIGN KEY (saison_id) REFERENCES saison (saison_id);
-COMMIT;
