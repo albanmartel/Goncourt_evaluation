@@ -195,5 +195,5 @@ ALTER TABLE prix_litteraire
   ADD CONSTRAINT prix_litteraire_ibfk_1 FOREIGN KEY (livre_id) REFERENCES livre (livre_id);
 
 ALTER TABLE session
-  ADD CONSTRAINT 1 FOREIGN KEY (saison_id) REFERENCES saison (saison_id);
+  ADD CONSTRAINT session_ibfk_1 FOREIGN KEY (saison_id) REFERENCES saison (saison_id);
 COMMIT;
