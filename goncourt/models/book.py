@@ -29,3 +29,6 @@ class Book():
     book_nbr_pages: str
     book_price: float
     book_minimal_age: int
+
+    def toString(self):
+        return f"{self.book_title}: {self.book_summary}"
