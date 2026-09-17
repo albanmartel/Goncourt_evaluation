@@ -26,18 +26,18 @@ if not os.getenv("MYSQL_PASSWORD"):
 @dataclass
 class Dao[T](ABC):
     try :
-        database_u: str = os.getenv("MYSQL_DATABASE_2")
-        print(database_u)
+        database_u: str = os.getenv("MYSQL_DATABASE_GONCOURT")
         """Cette connexion a été écrite par l'IA gemini"""
         connection: ClassVar[pymysql.Connection] = pymysql.connect(
-            host=os.getenv("MYSQL_HOST", "mariadb"),
+            host=os.getenv("MYSQL_HOST"),
             port=int(os.getenv("MYSQL_PORT", 3306)),
-            user=os.getenv("MYSQL_USER", "goncourt_selection"),
-            password=os.getenv("MYSQL_PASSWORD", ""),
-            database=os.getenv("MYSQL_DATABASE_2", "goncourt_selection"),
+            user=os.getenv("MYSQL_GONCOURT_USER"),
+            password=os.getenv("MYSQL_GONCOURT_PASSWORD"),
+            database=os.getenv("MYSQL_DATABASE_GONCOURT"),
             cursorclass=pymysql.cursors.DictCursor,
-            autocommit=False,  # Recommandé si tu gères des transactions (START TRANSACTION / COMMIT
+            autocommit=False,  # Message de l'IA : Recommandé si tu gères des transactions (START TRANSACTION / COMMIT
         )
+        print(f"Connexion à la base de données: {database_u} réussie !")
     except pymysql.err.Error as e:
         connection = None
         print(f"Erreur de connexion à MariaDB : {e}")
