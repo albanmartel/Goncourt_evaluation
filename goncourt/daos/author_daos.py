@@ -12,6 +12,45 @@ from typing import Optional, Any
 
 @dataclass
 class AuthorDao(Dao[Author]):
+
+    @staticmethod
+    def author_from_db(record) -> Author:
+        """Construit un cours du modèle d'après son entité en BD"""
+        author: Author = Author(record['first_name'], record['last_name'], record['book_title'], record['book_summary'], record['biography'])
+        author.id = record['id_author']
+
+        return author
+
+    def read(self, id_author: int) -> Optional[Author]:
+        """
+        Renvoit l'autheur correspondant à l'entité dont l'id est id_autheur
+        (ou None s'il n'a pu être trouvé)
+        """
+
+        sql = "SELECT personne.personne_prenom AS first_name, personne.personne_nom AS last_name, "
+        sql += "livre.livre_resume AS book_summary, livre.livre_titre AS book_title, "
+        sql += "auteur.auteur_biographie AS biography, auteur.auteur_id AS id_author FROM auteur "
+        sql += "LEFT JOIN personne ON personne.personne_id = auteur.personne_id "
+        sql += "LEFT JOIN livre ON livre.auteur_id = auteur.auteur_id "
+        sql += "WHERE auteur.auteur_id = (%s)"
+
+        try:
+            with Dao.connection.cursor() as cursor:
+                cursor.execute(sql, (id_author,))
+                record = cursor.fetchone()
+                if record is not None:
+                    print(record)
+                    author = self.author_from_db(record)
+                else:
+                    author = None
+
+                return author
+
+        except Exception as e:
+            print(f"Une exception s'est produite : {e}")
+
+            return None
+
     def create(self, course: Author) -> int:
         pass
     def update(self, course: Author) -> Any:
