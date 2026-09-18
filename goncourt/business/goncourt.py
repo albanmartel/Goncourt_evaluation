@@ -27,3 +27,8 @@ class Goncourt:
         author_dao: AuthorDao = AuthorDao()
         return author_dao.read(id_author)
 
+    @staticmethod
+    def get_authors() -> Optional[Author]:
+        author_dao: AuthorDao = AuthorDao()
+        return author_dao.readall()
+
