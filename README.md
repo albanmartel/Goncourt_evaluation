@@ -47,6 +47,18 @@ d'autres solutions alternatives d'administration de base de données (applicatio
 - [DBeaver](https://dbeaver.io/) un client de référence assez universel pour couvrir de nombreuses technologies de bases de données différences  et multi-plateformes moins user frendly que phpMyAdmin.
 - [HeidiSQL](https://www.heidisql.com/) un client plus léger et plus user frendly que DBeaver mais pas aussi universel et multi-plateformes
 
+#### 1. Créer la base et les tables
+
+A l'aide du script SQL : [goncourt_schema.sql](SQL/goncourt_schema.sql).
+
+#### 2. "Hydrater / peupler" la base de données
+
+A l'aide du script SQL **en déactivant la vérification des clefs étrangères** : [goncourt_data.sql](SQL/data.sql).
+
+#### 3. Créer un utilisateur privilégier de la base de données
+
+A l'aide du script SQL (personnaliser le nom et le mot de passe à votre convenance ): [creer_utilisateur_privilegier_sur_BDD_goncourt_selection.sql](SQL/creer_utilisateur_privilegier_sur_BDD_goncourt_selection.sql)
+
 ## Assistance IA
 
 1. Utiliser des variables d'environnement pour se connecter à la base mariadb permet de ne pas publier les mots de passes utilisés. Pour pouvoir faire cela, j'ai demandé à l'IA Gemini de me fournir un extrait de code python et de fichier d'environnement ainsi que les bibliothèques nécessaires pour lire le fichier d'environnement 
