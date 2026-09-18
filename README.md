@@ -31,9 +31,21 @@ L’ensemble des données de départ pourra être entré en dur dans la base de 
 
 ## importer le projet 
 
+### Cloner le projet
+
 ```
 git clone https://github.com/albanmartel/Goncourt_evaluation.git
 ```
+
+### Création de la base de données
+
+prérequis, il vous faut au minimum un moteur de base données mariadb ou mysql.
+
+Personnellement, j'utilise le client [phpMyAdmin](https://www.phpmyadmin.net/) pour administrer la base de données.
+
+d'autres solutions alternatives d'administration de base de données (application cliente desktop) sans serveurs php/(MySQL ou MariaDB)/(Apache ou Nginx) :
+- [DBeaver](https://dbeaver.io/) un client de référence assez universel pour couvrir de nombreuses technologies de bases de données différences  et multi-plateformes moins user frendly que phpMyAdmin.
+- [HeidiSQL](https://www.heidisql.com/) un client plus léger et plus user frendly que DBeaver mais pas aussi universel et multi-plateformes
 
 ## Assistance IA
 
