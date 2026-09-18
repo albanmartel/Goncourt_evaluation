@@ -110,6 +110,46 @@ source .venv/bin/activate
 
 Le fichier **.env** doit être enregister à la base du projet
 
+#### 3. Installation des dépendances depuis `requirements.txt`
+
+Contenu de requirements.txt à la base du projet :
+```txt
+# --- Chiffrement & Sécurité ---
+# Dépendances bas niveau pour cryptography
+cffi~=2.0
+pycparser~=2.23
+# SSL et chiffrement
+cryptography~=46.0
+
+# --- Base de données ---
+PyMySQL~=1.1
+types-PyMySQL~=1.1
+
+# --- Configuration & Environnement ---
+python-dotenv~=1.0
+
+# --- Documentation ---
+pydocstyle~=6.3
+sphinx~=7.2
+mkdocs~=1.5
+mkdocstrings[python]~=0.24
+
+# --- Qualité de code & Sécurité ---
+mypy~=1.8.0
+flake8~=7.0
+bandit~=1.7
+radon~=6.0
+
+# --- Intégration continue ---
+pre-commit~=4.1.0
+``` 
+
+Une fois le fichier enregistré, exécuter dans le terminal :
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Assistance IA
 
 1. Utiliser des variables d'environnement pour se connecter à la base mariadb permet de ne pas publier les mots de passes utilisés. Pour pouvoir faire cela, j'ai demandé à l'IA Gemini de me fournir un extrait de code python et de fichier d'environnement ainsi que les bibliothèques nécessaires pour lire le fichier d'environnement 
