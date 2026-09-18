@@ -150,6 +150,56 @@ Une fois le fichier enregistré, exécuter dans le terminal :
 pip install -r requirements.txt
 ```
 
+### Intégration continue `pre-commit`
+
+Pour régler la sévérité de **Bandit** et **Radon** afin d'éviter les faux positifs, la configuration se fait directement au niveau des arguments passés dans le fichier `.pre-commit-config.yaml`.
+
+Crée le fichier `.pre-commit-config.yaml` à la racine de ton projet.
+
+#### 1. `.pre-commit-config.yaml`
+
+```yaml
+repos:
+  - repo: local
+    hooks:
+      - id: flake8
+        name: flake8
+        entry: flake8
+        language: system
+        types: [python]
+        args: ["--max-line-length=88", "--ignore=E203,W503"]
+
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: system
+        types: [python]
+        args: ["--ignore-missing-imports"]
+
+      - id: pydocstyle
+        name: pydocstyle
+        entry: pydocstyle
+        language: system
+        types: [python]
+        args: ["--match-dir=^(?!tests|docs|\\.venv).*"]
+
+      - id: bandit
+        name: bandit (sécurité - sévérité moyenne+)
+        entry: bandit
+        language: system
+        types: [python]
+        # -ll : Medium/High severity, -ii : Medium/High confidence
+        args: ["-r", "src/", "-ll", "-ii", "-x", "tests/"]
+
+      - id: radon
+        name: radon (complexité cyclomatique >= C)
+        entry: radon cc
+        language: system
+        types: [python]
+        # -n C : alerte uniquement à partir de la note C (complexité modérée/élevée)
+        args: ["src/", "-n", "C", "-a"]
+```
+
 ## Assistance IA
 
 1. Utiliser des variables d'environnement pour se connecter à la base mariadb permet de ne pas publier les mots de passes utilisés. Pour pouvoir faire cela, j'ai demandé à l'IA Gemini de me fournir un extrait de code python et de fichier d'environnement ainsi que les bibliothèques nécessaires pour lire le fichier d'environnement 
