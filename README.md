@@ -75,6 +75,39 @@ MYSQL_DATABASE_GONCOURT='<nom de la base de données>'
 
 Note : *Toutes les valeurs comprises entre < et > doivent être personnalisées*
 
+###  Créer un environnement virtuel Python
+
+#### 1. Création et emplacement de l'environnement
+
+À la racine de ton projet :
+
+```bash
+python -m venv .venv
+```
+
+#### 2. Activation de l'environnement virtuel
+
+Ouvre ton terminal dans le dossier racine de ton projet :
+
+* **Windows (Command Prompt / `cmd.exe`)** :
+```cmd
+.venv\Scripts\activate.bat
+```
+
+
+* **Windows (PowerShell)** :
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+*(Si une erreur d'exécution de script apparaît, lance d'abord `Set-ExecutionPolicy Unrestricted -Scope Process` dans ta session).*
+* **Linux / macOS** :
+```bash
+source .venv/bin/activate
+```
+
+*`(.venv)` s'affiche au début de la ligne de commande quand l'environnement virtuel est activé.*
+
 Le fichier **.env** doit être enregister à la base du projet
 
 ## Assistance IA
