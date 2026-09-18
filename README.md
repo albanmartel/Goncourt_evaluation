@@ -207,6 +207,37 @@ Une fois les paquets installés (`pip install -r requirements.txt`), lancez :
 pre-commit install
 ```
 
+## Architecture finale d'installation du projet
+
+A ce stade votre architecture ressemble à cela :
+
+```text
+Goncourt_evaluation/
+│
+├── .git/                     # Dossier Git (versionnement)
+├── .gitignore                # configurer ce qui est ignoré par Git
+├── .venv/                    # Environnement virtuel local
+├── .env                      # Variables d'environnement locales
+├── .env.example              # Modèle de .env (sans vraies clés)
+│
+├── .pre-commit-config.yaml   # Orchestration des crochets Pre-Commit
+├── requirements.txt          # Export des dépendances
+│
+├── README.md
+│
+├── goncourt/                 # Code source du projet
+|    └── business/
+|    ├───daos
+|    └───models
+├───IA_Gemini
+├───SQL
+└───UML
+    ├───1-user_case
+    ├───2-class
+    ├───3-sequence
+    └───4-mcd
+```
+
 ## Assistance IA
 
 1. Utiliser des variables d'environnement pour se connecter à la base mariadb permet de ne pas publier les mots de passes utilisés. Pour pouvoir faire cela, j'ai demandé à l'IA Gemini de me fournir un extrait de code python et de fichier d'environnement ainsi que les bibliothèques nécessaires pour lire le fichier d'environnement 
