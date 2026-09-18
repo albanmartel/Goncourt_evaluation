@@ -199,6 +199,13 @@ repos:
         # -n C : alerte uniquement à partir de la note C (complexité modérée/élevée)
         args: ["src/", "-n", "C", "-a"]
 ```
+### Activer pre-commit
+
+Une fois les paquets installés (`pip install -r requirements.txt`), lancez :
+
+```bash
+pre-commit install
+```
 
 ## Assistance IA
 
