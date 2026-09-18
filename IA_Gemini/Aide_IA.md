@@ -105,3 +105,71 @@ Voici les erreurs courantes rencontrées avec MariaDB, classées par domaine :
 | **1451 / 1452** | `ER_ROW_IS_REFERENCED...` | **Violation de clé étrangère** : Tentative d'insertion avec une référence inexistante (1452) ou de suppression d'un parent lié (1451). |
 | **2006** | `CR_SERVER_GONE_AWAY` | **Déconnexion pendant la requête** : Le serveur a coupé le lien (dépassement de `max_allowed_packet` ou `wait_timeout`). |
 | **1114** | `ER_RECORD_FILE_FULL` | **Disque ou table plein(e)** : Espace disque insuffisant sur le serveur. |
+
+
+## 3.1. Réponse Gemini intégration continue avec pre-commit
+
+Voici ton fichier `requirements.txt` nettoyé (les doublons `python-dotenv` et `mypy` ont été retirés) avec l'ajout de `pre-commit~=4.1.0` (la version stable actuelle).
+
+Pour régler la sévérité de **Bandit** et **Radon** afin d'éviter les faux positifs, la configuration se fait directement au niveau des arguments passés dans le fichier `.pre-commit-config.yaml`.
+
+### 3.1.1. Configuration `.pre-commit-config.yaml` (Sévérité modérée)
+
+Pour éviter les alertes trop strictes :
+
+* **Bandit** : On utilise `-ll` (niveau de sévérité **Moyen ou Élevé** uniquement) et `-ii` (niveau de confiance **Moyen ou Élevé** uniquement). On exclut aussi les dossiers de tests.
+* **Radon** : On fixe le seuil de complexité à **`-n C`** (seules les fonctions très complexes de note C, D, E ou F lèveront une alerte, en ignorant les fonctions simples A et B).
+
+Crée le fichier `.pre-commit-config.yaml` à la racine de ton projet :
+
+```yaml
+repos:
+  - repo: local
+    hooks:
+      - id: flake8
+        name: flake8
+        entry: flake8
+        language: system
+        types: [python]
+        args: ["--max-line-length=88", "--ignore=E203,W503"]
+
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: system
+        types: [python]
+        args: ["--ignore-missing-imports"]
+
+      - id: pydocstyle
+        name: pydocstyle
+        entry: pydocstyle
+        language: system
+        types: [python]
+        args: ["--match-dir=^(?!tests|docs|\\.venv).*"]
+
+      - id: bandit
+        name: bandit (sécurité - sévérité moyenne+)
+        entry: bandit
+        language: system
+        types: [python]
+        # -ll : Medium/High severity, -ii : Medium/High confidence
+        args: ["-r", "src/", "-ll", "-ii", "-x", "tests/"]
+
+      - id: radon
+        name: radon (complexité cyclomatique >= C)
+        entry: radon cc
+        language: system
+        types: [python]
+        # -n C : alerte uniquement à partir de la note C (complexité modérée/élevée)
+        args: ["src/", "-n", "C", "-a"]
+```
+
+### 3.1.2 Activer pre-commit
+
+Une fois les paquets installés (`pip install -r requirements.txt`), lance :
+
+```bash
+pre-commit install
+```
+
+Désormais, `pre-commit` filtrera le code sans bloquer le développement pour des alertes mineures.
