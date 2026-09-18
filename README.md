@@ -59,6 +59,24 @@ A l'aide du script SQL **en déactivant la vérification des clefs étrangères*
 
 A l'aide du script SQL (personnaliser le nom et le mot de passe à votre convenance ): [creer_utilisateur_privilegier_sur_BDD_goncourt_selection.sql](SQL/creer_utilisateur_privilegier_sur_BDD_goncourt_selection.sql)
 
+### Créer un fichier d'environnement
+
+Ce type de fichier permet de protéger l'accès et ne pas divulger ses informations dans un dépôt git
+
+Exemple de contenu pour le fichier __.env__ :
+```
+MYSQL_ROOT_PASSWORD='<mot_de_passe_root>'
+MYSQL_HOST='127.0.0.1'
+MYSQL_PORT='3306'
+MYSQL_GONCOURT_PASSWORD='<mot_de_passe_utilisateur>'
+MYSQL_GONCOURT_USER='<nom_utilisateur>'
+MYSQL_DATABASE_GONCOURT='<nom de la base de données>'
+```
+
+Note : *Toutes les valeurs comprises entre < et > doivent être personnalisées*
+
+Le fichier **.env** doit être enregister à la base du projet
+
 ## Assistance IA
 
 1. Utiliser des variables d'environnement pour se connecter à la base mariadb permet de ne pas publier les mots de passes utilisés. Pour pouvoir faire cela, j'ai demandé à l'IA Gemini de me fournir un extrait de code python et de fichier d'environnement ainsi que les bibliothèques nécessaires pour lire le fichier d'environnement 
