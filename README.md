@@ -238,6 +238,34 @@ Goncourt_evaluation/
     └───4-mcd
 ```
 
+## Exécuter le code
+
+A ce stade vous devriez pouvoir exécuter le code ou utiliser ce projet pour en poursuivre l'intégration.
+
+
+### Sur Windows (CMD) :
+
+```cmd
+.venv\Scripts\activate.bat
+set PYTHONPATH=goncourt && python -m goncourt.main
+
+```
+
+### Sur Windows (PowerShell) :
+
+```powershell
+.venv\Scripts\Activate.ps1
+$env:PYTHONPATH="goncourt"; python -m goncourt.main
+
+```
+
+### Sur Mac / Linux :
+
+```bash
+source .venv/bin/activate
+PYTHONPATH=goncourt python3 -m goncourt.main
+```
+
 ## Assistance IA
 
 1. Utiliser des variables d'environnement pour se connecter à la base mariadb permet de ne pas publier les mots de passes utilisés. Pour pouvoir faire cela, j'ai demandé à l'IA Gemini de me fournir un extrait de code python et de fichier d'environnement ainsi que les bibliothèques nécessaires pour lire le fichier d'environnement 
