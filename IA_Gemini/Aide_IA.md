@@ -173,3 +173,106 @@ pre-commit install
 ```
 
 Désormais, `pre-commit` filtrera le code sans bloquer le développement pour des alertes mineures.
+
+## 4.0 Questino `pyproject.toml`
+
+1. Pourquoi est bien d'avoir un fichier "pyproject.toml " dans un projet python ?   
+
+1. Qu'est-ce que cela m'apporte ?    
+ 
+1. Est-ce que cela est toujours avantageux alors que mon projet n'est pas un projet nouveau ? 
+ 
+1.  Qu'est-ce que cela apporte au niveau de la gestion des outils ? 
+ 
+1. Pouvez-vous me montrer un example de pyproject.tom ?
+
+## 4.1 Réponse Gemini : 
+
+### 4.1.1. Pourquoi est-il bien d'avoir un fichier `pyproject.toml` dans un projet Python ?
+
+Avoir un fichier `pyproject.toml` est une bonne pratique car il s'agit du **standard officiel de la communauté Python** (défini par la [PEP 518](https://peps.python.org/pep-0518/?utm_source=gemini) et la [PEP 621](https://peps.python.org/pep-0621/?utm_source=gemini)).
+
+Avant sa création, la configuration d'un projet Python était éparpillée entre plusieurs fichiers non standardisés (`setup.py`, `setup.cfg`, `requirements.txt`, `Pipfile`, `.flake8`, `mypy.ini`, etc.). Le fichier `pyproject.toml` résout ce problème en offrant un **point d'entrée unique, déclaratif et lisible** pour tout ce qui concerne le projet.
+
+
+### 4.1.2. Qu'est-ce que cela m'apporte ?
+
+1. **Centralisation :** Tu lis et modifies toute la configuration de ton projet au même endroit.
+2. **Lisibilité (format TOML) :** Contrairement aux scripts exécutables (`setup.py`) ou aux syntaxes hétérogènes, le TOML est un format de données clair, facile à relire et à éditer sans risquer d'exécuter du code arbitraire.
+3. **Compatibilité moderne :** Tous les outils récents de l'écosystème Python (`uv`, `poetry`, `hatch`, `ruff`, `mypy`, `pytest`) le comprennent nativement.
+4. **Simplification du packaging :** Si un jour tu souhaites publier ton projet sous forme de paquet (sur PyPI ou en interne), toutes les métadonnées (nom, version, auteurs, dépendances) sont déjà prêtes.
+
+
+### 4.1.3. Est-ce que cela est toujours avantageux alors que mon projet n'est pas un projet nouveau ?
+
+**Oui, absolument.** L'adopter sur un projet existant apporte des bénéfices immédiats :
+
+* **Nettoyage de la racine :** Tu peux supprimer une multitude de fichiers de configuration individuels (`pytest.ini`, `mypy.ini`, `.pydocstyle`, etc.) pour tout regrouper dans un seul fichier.
+* **Transition progressive :** Tu n'es pas obligé de tout migrer du jour au lendemain. Tu peux commencer par y mettre la configuration de tes outils de qualité de code (`pytest`, `mypy`, `ruff`), puis basculer la gestion de tes dépendances plus tard.
+* **Onboarding facilité :** Un nouveau développeur arrivant sur le projet n'a qu'un seul fichier à consulter pour comprendre la structure, les dépendances et les règles de style du code.
+
+
+### 4.1.4. Qu'est-ce que cela apporte au niveau de la gestion des outils ?
+
+* **Isolation et reproductibilité :** Grâce à la section `[build-system]`, Python sait exactement quels outils sont nécessaires pour installer ou construire ton projet sans dépendre de l'environnement global de la machine.
+* **Configuration unifiée (`[tool.nom_du_outil]`) :** Chaque outil de ton workflow (linter, formateur, type-checker, moteur de tests) dispose de son propre espace dédié dans le fichier.
+* **Partage d'équipe :** L'ensemble de ton équipe de développement partage strictement la même configuration pour les outils de qualité, garantissant un code homogène lors des révisions (`code review`).
+
+
+### 4.1.5. Exemple concret de `pyproject.toml`
+
+Voici un exemple complet regroupant métadonnées, dépendances et configurations d'outils :
+
+```toml
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+# --- Métadonnées du projet (PEP 621) ---
+[project]
+name = "mon-projet-python"
+version = "0.2.0"
+description = "Projet Python avec configuration centralisée"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Ton Name", email = "ton.email@example.com" }
+]
+dependencies = [
+    "requests>=2.31.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "mypy>=1.8.0",
+    "ruff>=0.4.0",
+]
+
+# --- Configuration de Pytest ---
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+
+# --- Configuration de Mypy (Type Checking) ---
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+# --- Configuration de Ruff (Linter & Formatter moderne) ---
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E", "F",    # Erreurs et avertissements Flake8
+    "I",         # Tri des imports (isort)
+    "D",         # Vérification des docstrings (pydocstyle)
+]
+ignore = ["D100"]  # Exemple : ignorer la vérification de docstring sur les fichiers de niveau module
+```
