@@ -1,6 +1,6 @@
 # Echanges avec IA générative Gemini
 
-## Question DAO extrait code python, exemple fichier d'environnement
+## 1.0 Question DAO extrait code python, exemple fichier d'environnement
 
 Pouvez-vous me donner un extrait de code python dao, juste la connexion dans un try except qui me permette de me connecter à un base mariadb. 
 
@@ -8,7 +8,7 @@ J'ai besoin aussi d'un exemple de fichier d'environnement .env à la base de mon
 
 Est ce que j'aurai aussi besoin de librairie particulière python pour lire ce fichier et lesquelles ? 
 
-## Réponse de Gemini DAO extrait code python, exemple fichier d'environnement
+## 1.1 Réponse de Gemini DAO extrait code python, exemple fichier d'environnement
 
 Oui, vous aurez besoin de deux bibliothèques Python principales :
 
@@ -67,15 +67,15 @@ if __name__ == "__main__":
         conn.close()
 ```
 
-## Question erreurs mariaDB
+## 2.0 Question erreurs mariaDB
 
 Quelles sont les erreurs courantes mariadb leurs chiffres et ce que cela signifie ?
 
-## Réponse Gemini erreurs mariaDB
+## 2.1 Réponse Gemini erreurs mariaDB
 
 Voici les erreurs courantes rencontrées avec MariaDB, classées par domaine :
 
-### 1. Erreurs d'authentification et de connexion
+### 2.1.1. Erreurs d'authentification et de connexion
 
 | Code | Libellé MariaDB | Signification / Cause courante |
 | --- | --- | --- |
@@ -86,7 +86,7 @@ Voici les erreurs courantes rencontrées avec MariaDB, classées par domaine :
 | **2003** | `CR_CONN_HOST_ERROR` | **Connexion refusée** : Problème de pare-feu, port 3306 fermé ou serveur configuré pour écouter sur `127.0.0.1` uniquement. |
 
 
-### 2. Erreurs de syntaxe et de structure SQL
+### 2.1.2. Erreurs de syntaxe et de structure SQL
 
 | Code | Libellé MariaDB | Signification / Cause courante |
 | --- | --- | --- |
@@ -97,7 +97,7 @@ Voici les erreurs courantes rencontrées avec MariaDB, classées par domaine :
 
 
 
-### 3. Erreurs de contraintes et d'exécution
+### 2.1.3. Erreurs de contraintes et d'exécution
 
 | Code | Libellé MariaDB | Signification / Cause courante |
 | --- | --- | --- |
