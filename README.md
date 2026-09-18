@@ -269,4 +269,6 @@ PYTHONPATH=goncourt python3 -m goncourt.main
 ## Assistance IA
 
 1. Utiliser des variables d'environnement pour se connecter à la base mariadb permet de ne pas publier les mots de passes utilisés. Pour pouvoir faire cela, j'ai demandé à l'IA Gemini de me fournir un extrait de code python et de fichier d'environnement ainsi que les bibliothèques nécessaires pour lire le fichier d'environnement 
-1. Pour mieux comprendre les code d'erreurs retourné par mariadb à l'exécution de mon code, je lui ai demandé de me fournir une synthèse des codes et de leurs significations. Cette réponse m'a aidé à mieux comprendre qu'il manquait une virgule dans ma requête. 
+1. Pour mieux comprendre les code d'erreurs retourné par mariadb à l'exécution de mon code, je lui ai demandé de me fournir une synthèse des codes et de leurs significations. Cette réponse m'a aidé à mieux comprendre qu'il manquait une virgule dans ma requête.
+1. Utiliser un environnement d'intégration continue pour faire régulièrement (au moment du commit de git) et lancer un analyse de code (flake8, mypy, pydocstyle, bandit, radon)
+1. Se documenter sur  l'utilisation de `pyproject.toml` pour la configuration centralisée d'un projet python.
