@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 .idea
 *uv.lock
-*pyproject.toml
+WelcomeScreen/
 
 # C extensions
 *.so
