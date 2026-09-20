@@ -11,6 +11,7 @@ dependencies = [
     "cffi>=2.1.1",
     "cryptography>=3.0.0",
     "flake8>=7.3.0",
+    "doq>=0.9.1",
     "mkdocs>=1.6.1",
     "mkdocstrings>=1.0.6",
     "mypy>=2.3.1",
