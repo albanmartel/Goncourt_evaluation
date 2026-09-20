@@ -34,5 +34,11 @@ class Author(User):
         yield 'user_email', self.user_email
         yield 'user_phone', self.user_phone
 
-    def toString(self):
-        return f"{self.author_biography}"
+     def __str__(self) -> str:
+        """
+        Méthode qui permet les données de l'instance de la classe Auteur
+
+        :return: une chaîne de caractère possédant toutes les données de la classe
+        """
+        return f"{self.first_name} {self.last_name} {self.book_title} {self.book_summary} {self.biography} {self.user_street} {self.user_postal_code} {self.user_city} {self.user_email} {self.user_phone}"
+
