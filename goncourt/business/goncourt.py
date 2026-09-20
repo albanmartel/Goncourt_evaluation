@@ -70,3 +70,23 @@ class Goncourt:
 
         return message_string
 
+    @staticmethod
+    def str_authors() -> str:
+        """
+        Méthode pour obtenir une liste d'auteurs depuis la classe business
+        Goncourt
+
+        Returns: une chaîne de caractère de la liste d'auteurs
+        """
+        message_string: str = "Pas de donnée retournée"
+        author_dao: AuthorDao = AuthorDao()
+        authors: list[Author] = author_dao.readall()
+
+        if authors is not None:
+            message_string = ""
+            for index, author in enumerate(authors, start=1):
+                message_string += f"--- Auteur N°{index} ---\n"
+                message_string += f"{author.__str__()}\n"
+
+        return message_string
+
