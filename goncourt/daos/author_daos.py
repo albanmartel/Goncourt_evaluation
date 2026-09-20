@@ -27,12 +27,19 @@ class AuthorDao(Dao[Author]):
         (ou None s'il n'a pu être trouvé)
         """
 
-        sql = "SELECT personne.personne_prenom AS first_name, personne.personne_nom AS last_name, "
-        sql += "livre.livre_resume AS book_summary, livre.livre_titre AS book_title, "
-        sql += "auteur.auteur_biographie AS biography, auteur.auteur_id AS id_author FROM auteur "
-        sql += "LEFT JOIN personne ON personne.personne_id = auteur.personne_id "
-        sql += "LEFT JOIN livre ON livre.auteur_id = auteur.auteur_id "
-        sql += "WHERE auteur.auteur_id = (%s)"
+        sql = """SELECT auteur.auteur_id AS id_author,
+        COALESCE(NULLIF(personne.personne_prenom, 'NULL'), '')  AS first_name,
+        personne.personne_nom AS last_name, 
+        COALESCE(NULLIF(utilisateur.utilisateur_rue, 'NULL'), '') AS user_street,
+        COALESCE(NULLIF(utilisateur.utilisateur_code_postal, 'NULL'), '') AS user_postal_code,
+        COALESCE(NULLIF(utilisateur.utilisateur_courriel, 'NULL'), '') as user_email,
+        COALESCE(NULLIF(utilisateur.utilisateur_telephone, 'NULL'), '') as user_phone,
+        COALESCE(NULLIF(auteur.auteur_biographie, 'NULL'), '') AS biography 
+        FROM auteur
+        LEFT JOIN personne ON personne.personne_id = auteur.personne_id
+        LEFT JOIN authentification ON authentification.personne_id = personne.personne_id
+        LEFT JOIN utilisateur ON utilisateur.utilisateur_id = authentification.utilisateur_id
+        WHERE auteur.auteur_id = (%s);"""
 
         try:
             with Dao.connection.cursor() as cursor:
