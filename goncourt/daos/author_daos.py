@@ -14,27 +14,27 @@ from typing import Optional, Any
 class AuthorDao(Dao[Author]):
 
     @staticmethod
-    def author_from_db(record) -> Author:
+    def author_from_db(record: dict) -> Author:
         """
         Construit un auteur à partir des données obtenues par la requête SQL
         Méthode qui permet de passer les données à un objet Auteur
-        :param record: le dictionnaire obtenu à partir de la requête SQL
-        :return: l'objet auteur
-        """
-        author: Author = Author("unknown", "unknown")
-        if record is not None:
-            """ Transformer le résultat en dictionnaire"""
-            for key, value in record.items():
-                if value == "":
-                    author.key = ""
-                else:
-                    author.key = value
+        Args:
+            record: le dictionnaire obtenu à partir de la requête SQL
 
-        return author
+        Returns: Retourne un objet Author
+        """
+        if record is not None:
+            return Author(**record)
+        return Author("unknown", "unknown")
 
     def read(self, id_author: int) -> Optional[Author]:
         """
-        Renvoit l'autheur correspondant à l'entité dont l'id est id_autheur
+        Renvoie l'auteur correspondant à l'entité dont l'id est id_auteur
+        (ou None s'il n'a pu être trouvé)
+        Args:
+            id_author: le numéro d'id correspondant à l'auteur recherché
+
+        Returns: Renvoie l'auteur correspondant à l'entité dont l'id est id_auteur
         (ou None s'il n'a pu être trouvé)
         """
         sql = """SELECT auteur.auteur_id AS id_author,
@@ -42,6 +42,7 @@ class AuthorDao(Dao[Author]):
         personne.personne_nom AS last_name, 
         COALESCE(NULLIF(utilisateur.utilisateur_rue, 'NULL'), '') AS user_street,
         COALESCE(NULLIF(utilisateur.utilisateur_code_postal, 'NULL'), '') AS user_postal_code,
+        COALESCE(NULLIF(utilisateur.utilisateur_ville, 'NULL'), '') AS user_city,
         COALESCE(NULLIF(utilisateur.utilisateur_courriel, 'NULL'), '') as user_email,
         COALESCE(NULLIF(utilisateur.utilisateur_telephone, 'NULL'), '') as user_phone,
         COALESCE(NULLIF(auteur.auteur_biographie, 'NULL'), '') AS biography 
@@ -68,10 +69,12 @@ class AuthorDao(Dao[Author]):
 
             return None
 
-    def readall(self) -> Optional[Author]:
-        """
-        Renvoit l'ensemble des auteurs
-        (ou None s'il n'a pu être trouvé)
+    def readall(self) -> list[Author]:
+         """
+
+        Returns: une liste d'instances d'Author ou
+        None si rien n'a été trouvé
+
         """
         authors: list[Author] = []
 
@@ -80,6 +83,7 @@ class AuthorDao(Dao[Author]):
         personne.personne_nom AS last_name, 
         COALESCE(NULLIF(utilisateur.utilisateur_rue, 'NULL'), '') AS user_street,
         COALESCE(NULLIF(utilisateur.utilisateur_code_postal, 'NULL'), '') AS user_postal_code,
+        COALESCE(NULLIF(utilisateur.utilisateur_ville, 'NULL'), '') AS user_city,
         COALESCE(NULLIF(utilisateur.utilisateur_courriel, 'NULL'), '') as user_email,
         COALESCE(NULLIF(utilisateur.utilisateur_telephone, 'NULL'), '') as user_phone,
         COALESCE(NULLIF(auteur.auteur_biographie, 'NULL'), '') AS biography 
