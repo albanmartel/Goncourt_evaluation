@@ -121,6 +121,10 @@ pycparser~=2.23
 # SSL et chiffrement
 cryptography~=46.0
 
+# --- Gestionnaire de paquets & Formatage ---
+uv~=0.9
+ruff~=0.9
+
 # --- Base de données ---
 PyMySQL~=1.1
 types-PyMySQL~=1.1
@@ -133,6 +137,7 @@ pydocstyle~=6.3
 sphinx~=7.2
 mkdocs~=1.5
 mkdocstrings[python]~=0.24
+doq~=0.9
 
 # --- Qualité de code & Sécurité ---
 mypy~=1.8.0
@@ -150,6 +155,102 @@ Une fois le fichier enregistré, exécuter dans le terminal :
 pip install -r requirements.txt
 ```
 
+### Alternative plus moderne au fichier requirements : `pyproject.toml`
+
+Crée le fichier `pyproject.toml` à la racine de ton projet.
+```toml
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "goncourt-evaluation"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = [
+    "bandit>=1.9.4",
+    "cffi>=2.1.1",
+    "cryptography>=3.0.0",
+    "flake8>=7.3.0",
+    "doq>=0.9.1",
+    "mkdocs>=1.6.1",
+    "mkdocstrings>=1.0.6",
+    "mypy>=2.3.1",
+    "pre-commit>=4.6.2",
+    "pydocstyle>=6.3.0",
+    "pymysql>=1.2.3",
+    "python-dotenv>=1.2.3",
+    "radon>=6.0.1",
+    "ruff>=0.9.0",
+    "sphinx>=9.1.0",
+    "types-pymysql>=1.2.0.20260807",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["goncourt*"]
+
+[tool.uv]
+link-mode = "copy"
+
+[project.scripts]
+goncourt = "goncourt.main:cli"
+
+[tool.ruff]
+# Longueur maximale des lignes
+line-length = 88
+
+# Version minimale de Python ciblée
+target-version = "py311"
+
+# Dossiers à ignorer
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+# Règles à activer
+select = [
+    "E",   # Error (pycodestyle)
+    "W",   # Warning (pycodestyle)
+    "F",   # Pyflakes (erreurs de variables non utilisées, imports, etc.)
+    "I",   # isort (tri automatique des imports)
+    "B",   # flake8-bugbear (détection de bugs fréquents)
+    "UP",  # pyupgrade (modernisation de la syntaxe Python)
+]
+
+# Règles spécifiques à ignorer si besoin
+ignore = [
+    "E501", # Laisse le formateur gérer la longueur des lignes au lieu de lever une erreur
+]
+
+# Autoriser la correction automatique pour toutes les règles activées
+fixable = ["ALL"]
+
+[tool.ruff.lint.isort]
+# Combine les imports du même package sur une seule ligne
+combine-as-imports = true
+```
+#### Installer l'outil UV
+
+uv est un outil écrit en Rust (un langage bas niveau équivalent à du C mais avec plus sécurité).
+C'est pour cette raison que l'installation des packages est de 10 à 100 fois plus rapide
+
+```bash
+pip install uv
+```
+
+#### Installer les paquets avec UV
+
+```
+uv sync
+```
+
+
 ### Intégration continue `pre-commit`
 
 Pour régler la sévérité de **Bandit** et **Radon** afin d'éviter les faux positifs, la configuration se fait directement au niveau des arguments passés dans le fichier `.pre-commit-config.yaml`.
@@ -164,40 +265,45 @@ repos:
     hooks:
       - id: flake8
         name: flake8
-        entry: flake8
+        entry: uv run flake8
         language: system
         types: [python]
-        args: ["--max-line-length=88", "--ignore=E203,W503"]
+        args: ["--max-line-length=88", "--ignore=E203,W503", "goncourt/"]
+        pass_filenames: false
 
       - id: mypy
         name: mypy
-        entry: mypy
+        entry: uv run mypy
         language: system
         types: [python]
-        args: ["--ignore-missing-imports"]
+        args: ["--ignore-missing-imports", "goncourt/"]
+        pass_filenames: false
 
       - id: pydocstyle
         name: pydocstyle
-        entry: pydocstyle
+        entry: uv run pydocstyle
         language: system
         types: [python]
-        args: ["--match-dir=^(?!tests|docs|\\.venv).*"]
+        args: ["--match-dir=^(?!tests|docs|\\.venv).*", "goncourt/"]
+        pass_filenames: false
 
       - id: bandit
         name: bandit (sécurité - sévérité moyenne+)
-        entry: bandit
+        entry: uv run bandit
         language: system
         types: [python]
         # -ll : Medium/High severity, -ii : Medium/High confidence
-        args: ["-r", "src/", "-ll", "-ii", "-x", "tests/"]
+        args: ["-r", "goncourt/", "-ll", "-ii", "-x", "tests/"]
+        pass_filenames: false
 
       - id: radon
         name: radon (complexité cyclomatique >= C)
-        entry: radon cc
+        entry: uv run radon cc
         language: system
         types: [python]
         # -n C : alerte uniquement à partir de la note C (complexité modérée/élevée)
-        args: ["src/", "-n", "C", "-a"]
+        args: ["goncourt/", "-n", "C", "-a"]
+        pass_filenames: false
 ```
 ### Activer pre-commit
 
@@ -222,8 +328,8 @@ Goncourt_evaluation/
 │
 ├── .pre-commit-config.yaml   # Orchestration des crochets Pre-Commit
 ├── requirements.txt          # Export des dépendances
-│
-├── README.md
+├── pyproject.toml            # Configuration pyproject "Le fichier de manifeste"
+├── README.md                 # Documentation de premier niveau
 │
 ├── goncourt/                 # Code source du projet
 |    └── business/
