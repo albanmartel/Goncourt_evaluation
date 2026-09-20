@@ -5,6 +5,10 @@ pycparser~=2.23
 # SSL et chiffrement
 cryptography~=46.0
 
+# --- Gestionnaire de paquets & Formatage ---
+uv~=0.9
+ruff~=0.9
+
 # --- Base de données ---
 PyMySQL~=1.1
 types-PyMySQL~=1.1
@@ -17,6 +21,7 @@ pydocstyle~=6.3
 sphinx~=7.2
 mkdocs~=1.5
 mkdocstrings[python]~=0.24
+doq~=0.9
 
 # --- Qualité de code & Sécurité ---
 mypy~=1.8.0
