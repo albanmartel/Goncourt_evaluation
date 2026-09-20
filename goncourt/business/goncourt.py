@@ -40,6 +40,12 @@ class Goncourt:
 
     @staticmethod
     def get_authors() -> Optional[Author]:
+        """
+        Méthode pour obtenir l'ensemble des auteurs depuis
+        la classe business Goncourt
+        Returns:
+
+        """
         author_dao: AuthorDao = AuthorDao()
         return author_dao.readall()
 
