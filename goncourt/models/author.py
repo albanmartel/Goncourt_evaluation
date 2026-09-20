@@ -4,6 +4,8 @@ Classe Author, fille de la classe User
 
 from dataclasses import asdict, dataclass
 
+import weakref
+
 from .user import User
 
 
@@ -14,9 +16,33 @@ class Author(User):
     et qui écrit un ou des livres.
     Plutôt tiré par les cheveux comme conception
     """
-
+    # Registre avec références faibles pour économiser la mémoire
+    _instances = weakref.WeakValueDictionary()
     biography: str = "unknown"
     id_author: int = 0
+
+    def __new__(cls, *args, **kwargs):
+        """
+        Récupération des id_author soit par kwarks ou par args
+        Args:
+            *args:
+            **kwargs:
+        """
+        id_author = kwargs.get("id_author")
+
+        # 1. Vérifier si l'instance existe déjà
+        if id_author is not None and id_author in cls._instances:
+            print(f"-> Instance avec ID '{id_author}' existante récupérée.")
+            return cls._instances[id_author]
+
+        # 2. Si elle n'existe pas, on la crée
+        print(f"-> Création d'une nouvelle instance pour ID '{id_author}'.")
+        instance = super().__new__(cls)
+
+        if id_author is not None:
+            cls._instances[id_author] = instance
+
+        return instance
 
     def items(self):
         """
