@@ -44,6 +44,18 @@ class Author(User):
 
         return instance
 
+    @classmethod
+    def get_by_id(cls, id_author):
+        """
+        Méthode de classe pour récupérer une instance par son ID.
+        Args:
+            id_author: id de l'auteur recherché
+
+        Returns: une instance de classe Author
+
+        """
+        return cls._instances.get(id_author)
+        
     def items(self):
         """
         méthode pour pouvoir itérer comme avec un dictionnaire
