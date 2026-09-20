@@ -49,3 +49,24 @@ class Goncourt:
         author_dao: AuthorDao = AuthorDao()
         return author_dao.readall()
 
+    @staticmethod
+    def str_author_by_id(id_author: int) -> str:
+        """
+        Méthode pour obtenir un auteur depuis la classe business
+        Goncourt
+
+        Args:
+            id_author: l'id de l'auteur recherché
+
+        Returns: une chaîne de caractère de l'objet DaoAuthor
+
+        """
+        message_string: str = "Pas de donnée retournée"
+        author_dao: AuthorDao = AuthorDao()
+        author: Author = author_dao.read(id_author)
+
+        if author is not None:
+            message_string = author.__str__()
+
+        return message_string
+
