@@ -15,9 +15,20 @@ class AuthorDao(Dao[Author]):
 
     @staticmethod
     def author_from_db(record) -> Author:
-        """Construit un cours du modèle d'après son entité en BD"""
-        author: Author = Author(record['first_name'], record['last_name'], record['book_title'], record['book_summary'], record['biography'])
-        author.id = record['id_author']
+        """
+        Construit un auteur à partir des données obtenues par la requête SQL
+        Méthode qui permet de passer les données à un objet Auteur
+        :param record: le dictionnaire obtenu à partir de la requête SQL
+        :return: l'objet auteur
+        """
+        author: Author = Author("unknown", "unknown")
+        if record is not None:
+            """ Transformer le résultat en dictionnaire"""
+            for key, value in record.items():
+                if value == "":
+                    author.key = ""
+                else:
+                    author.key = value
 
         return author
 
