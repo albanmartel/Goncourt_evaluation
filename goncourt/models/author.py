@@ -2,9 +2,8 @@
 Classe Author, fille de la classe User
 """
 
-from dataclasses import asdict, dataclass
-
 import weakref
+from dataclasses import asdict, dataclass
 
 from .user import User
 
@@ -16,6 +15,7 @@ class Author(User):
     et qui écrit un ou des livres.
     Plutôt tiré par les cheveux comme conception
     """
+
     # Registre avec références faibles pour économiser la mémoire
     _instances = weakref.WeakValueDictionary()
     biography: str = "unknown"
@@ -55,7 +55,7 @@ class Author(User):
 
         """
         return cls._instances.get(id_author)
-        
+
     def items(self):
         """
         méthode pour pouvoir itérer comme avec un dictionnaire
@@ -70,7 +70,7 @@ class Author(User):
 
         Args:
             string_biography: la chaîne de caractère qui remplace
-             la précédente chaîne de la biographie de l'auteur
+            la précédente chaîne de la biographie de l'auteur
 
         Returns: None
 
@@ -83,4 +83,5 @@ class Author(User):
 
         :return: une chaîne de caractère possédant toutes les données de la classe
         """
-        return f""{self.id_author} {self.first_name} {self.last_name} {self.biography} {self.user_street} {self.user_postal_code} {self.user_city} {self.user_email} {self.user_phone}"
+        return f"{self.id_author} {self.first_name} {self.last_name} {self.biography}\
+            {self.user_street} {self.user_postal_code} {self.user_city} {self.user_email} {self.user_phone}"
