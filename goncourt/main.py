@@ -17,15 +17,10 @@ def main() -> None:
     goncourt: Goncourt = Goncourt()
     print("Afficher le premier auteur")
     print(goncourt.get_author_by_id(1))
-    for key, value in author.__dict__.items():
-        print(f"{key} :\n {value}")
     input("Press ENTER to continue...")
-    print("Afficher une liste d'auteur par prénom, nom et titre de roman")
-    authors: list[Author] = goncourt.get_authors()
-    for author in authors:
-        print(f"{author.first_name} {author.last_name} {author.book_title}")
-
+    print("Afficher une liste d'auteurs")
+    print(goncourt.str_authors())
     print("""Fin de l'application""")
-
+    
 if __name__ == '__main__':
     main()
