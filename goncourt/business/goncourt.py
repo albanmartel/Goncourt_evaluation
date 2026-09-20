@@ -1,16 +1,12 @@
-# -*- coding: utf-8 -*-
-
 """
 Classe Goncourt
 """
 
 from dataclasses import dataclass, field
-from datetime import date
-from typing import Optional
-
 
 from daos.author_daos import AuthorDao
 from models.author import Author
+
 
 @dataclass
 class Goncourt:
@@ -21,11 +17,12 @@ class Goncourt:
     - members : liste des membres du jury
 
     """
+
     Authors: list[Author] = field(default_factory=list, init=False)
 
     @staticmethod
     def get_author_by_id(id_author: int) -> Author | None:
-                """
+        """
         Méthode pour obtenir un auteur depuis la classe business
         Goncourt
 
@@ -39,7 +36,7 @@ class Goncourt:
         return author_dao.read(id_author)
 
     @staticmethod
-    def get_authors() -> Optional[Author]:
+    def get_authors() -> Author | None:
         """
         Méthode pour obtenir l'ensemble des auteurs depuis
         la classe business Goncourt
@@ -89,4 +86,3 @@ class Goncourt:
                 message_string += f"{author.__str__()}\n"
 
         return message_string
-
