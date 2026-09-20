@@ -1,18 +1,16 @@
-# -*- coding: utf-8 -*-
-
 """
 Classe Dao[Course]
 """
 
-from models.author import Author
-from daos.dao import Dao
 from dataclasses import dataclass
-from typing import Optional, Any
+from typing import Any
+
+from daos.dao import Dao
+from models.author import Author
 
 
 @dataclass
 class AuthorDao(Dao[Author]):
-
     @staticmethod
     def author_from_db(record: dict) -> Author:
         """
@@ -27,7 +25,7 @@ class AuthorDao(Dao[Author]):
             return Author(**record)
         return Author("unknown", "unknown")
 
-    def read(self, id_author: int) -> Optional[Author]:
+    def read(self, id_author: int) -> Author | None:
         """
         Renvoie l'auteur correspondant à l'entité dont l'id est id_auteur
         (ou None s'il n'a pu être trouvé)
@@ -70,7 +68,7 @@ class AuthorDao(Dao[Author]):
             return None
 
     def readall(self) -> list[Author]:
-         """
+        """
 
         Returns: une liste d'instances d'Author ou
         None si rien n'a été trouvé
@@ -111,23 +109,33 @@ class AuthorDao(Dao[Author]):
 
     def create(self, course: Author) -> int:
         pass
+
     def update(self, course: Author) -> Any:
         pass
+
     def delete(self, course: Author) -> Any:
         pass
+
     def find(self, course: Author) -> Any:
         pass
+
     def findAll(self, course: Author) -> Any:
         pass
+
     def findById(self, course: Author, id: int) -> Any:
         pass
+
     def findAllById(self, course: Author, id: int) -> Any:
         pass
+
     def findByName(self, course: Author, name: str) -> Any:
         pass
+
     def findAllByName(self, course: Author, name: str) -> Any:
         pass
+
     def findAllByIdAndName(self, course: Author, id: int, name: str) -> Any:
         pass
+
     def findAllByNameAndIdAndName(self, course: Author, id: int, name: str) -> Any:
         pass
