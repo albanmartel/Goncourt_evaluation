@@ -276,3 +276,172 @@ select = [
 ]
 ignore = ["D100"]  # Exemple : ignorer la vérification de docstring sur les fichiers de niveau module
 ```
+
+## 5.0 Que fait le fichier suivant `pyproject.toml` ?
+
+```Toml
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "goncourt-evaluation"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = [
+    "bandit>=1.9.4",
+    "cffi>=2.1.1",
+    "cryptography>=3.0.0",
+    "flake8>=7.3.0",
+    "doq>=0.9.1",
+    "mkdocs>=1.6.1",
+    "mkdocstrings>=1.0.6",
+    "mypy>=2.3.1",
+    "pre-commit>=4.6.2",
+    "pydocstyle>=6.3.0",
+    "pymysql>=1.2.3",
+    "python-dotenv>=1.2.3",
+    "radon>=6.0.1",
+    "ruff>=0.9.0",
+    "sphinx>=9.1.0",
+    "types-pymysql>=1.2.0.20260807",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["goncourt*"]
+
+[tool.uv]
+link-mode = "copy"
+
+[project.scripts]
+goncourt = "goncourt.main:cli"
+
+
+[tool.ruff]
+# Longueur maximale des lignes
+line-length = 88
+
+# Version minimale de Python ciblée
+target-version = "py311"
+
+# Dossiers à ignorer
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+# Règles à activer
+select = [
+    "E",   # Error (pycodestyle)
+    "W",   # Warning (pycodestyle)
+    "F",   # Pyflakes (erreurs de variables non utilisées, imports, etc.)
+    "I",   # isort (tri automatique des imports)
+    "B",   # flake8-bugbear (détection de bugs fréquents)
+    "UP",  # pyupgrade (modernisation de la syntaxe Python)
+]
+
+# Règles spécifiques à ignorer si besoin
+ignore = [
+    "E501", # Laisse le formateur gérer la longueur des lignes au lieu de lever une erreur
+]
+
+# Autoriser la correction automatique pour toutes les règles activées
+fixable = ["ALL"]
+
+[tool.ruff.lint.isort]
+# Combine les imports du même package sur une seule ligne
+combine-as-imports = true
+```
+
+## 5.1. Réponse de Gemini
+
+Ce fichier `pyproject.toml` est le **fichier de configuration central** de ton projet Python. Il définit la carte d'identité du projet, gère l'installation des dépendances, indique à Python comment exécuter l'application et paramètre les outils de qualité de code (comme **Ruff**).
+
+Voici le rôle détaillé de chaque section :
+
+---
+
+### 5.1.1. `[build-system]` — Le système de construction
+
+```toml
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+```
+
+* **Rôle :** Indique aux outils comme `pip` ou `uv` le moteur à utiliser pour "construire" et packaging le projet. Ici, il utilise **Setuptools** (version 61.0 ou supérieure).
+
+### 5.1.2. `[project]` — La carte d'identité et les dépendances
+
+```toml
+[project]
+name = "goncourt-evaluation"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = [ ... ]
+```
+
+* **Métadonnées :** Le projet s'appelle `goncourt-evaluation` en version `0.1.0`. Il exige au minimum Python 3.14.
+* **`dependencies` :** La liste des paquets tiers requis. On y retrouve :
+* **Chiffrement / Réseau :** `cryptography`, `cffi`.
+* **Base de données :** `pymysql` et ses stubs de typage `types-pymysql`.
+* **Gestion d'environnement :** `python-dotenv`.
+* **Qualité de code & Sécurité :** `ruff`, `mypy`, `bandit`, `flake8`, `pydocstyle`, `radon`, `pre-commit`.
+* **Documentation & Commentaires :** `sphinx`, `mkdocs`, `mkdocstrings`, `doq`.
+
+
+### 5.1.3. `[tool.setuptools.packages.find]` — Découverte du code source
+
+```toml
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["goncourt*"]
+```
+
+* **Rôle :** Dit à Setuptools d'aller chercher le code Python à la racine (`"."`), mais d'inclure **uniquement** le dossier/package qui commence par `goncourt` (ex: le sous-dossier `goncourt/`). Cela évite d'inclure accidentellement d'autres dossiers comme `UML/` ou `SQL/`.
+
+---
+
+### 5.1.4. `[tool.uv]` — Configuration de l'outil `uv`
+
+```toml
+[tool.uv]
+link-mode = "copy"
+```
+
+* **Rôle :** Indique à `uv` de faire une **copie complète** des fichiers depuis son cache lors de l'installation dans `.venv`, au lieu d'essayer de créer des liens durs (*hardlinks*). Cela supprime l'avertissement de conflit entre deux systèmes de fichiers sous Linux.
+
+---
+
+### 5.1.5. `[project.scripts]` — Exécutable en ligne de commande (CLI)
+
+```toml
+[project.scripts]
+goncourt = "goncourt.main:cli"
+```
+
+* **Rôle :** Crée une commande terminal nommée `goncourt`.
+* Quand tu tapes `uv run goncourt` dans ton terminal, Python exécute directement la fonction `cli()` située dans le fichier `goncourt/main.py`.
+
+---
+
+### 5.1.6. `[tool.ruff]` & `[tool.ruff.lint]` — Configuration du Linter / Formateur
+
+```toml
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+exclude = [ ... ]
+```
+
+* **Rôle :** Configure l'outil **Ruff** pour nettoyer et formater ton code :
+* Découpe les lignes trop longues au-delà de **88 caractères**.
+* Cible la syntaxe Python 3.11+.
+* **`select` :** Active le contrôle du style PEP 8 (`E`, `W`), la détection d'erreurs (`F`), le tri automatique des imports (`I`), les détections de bugs (`B`) et la modernisation de code (`UP`).
+* **`ignore = ["E501"]` :** Laisse le formateur gérer la longueur des lignes au lieu de lever un avertissement de linter.
+* **`fixable = ["ALL"]` :** Autorise Ruff à corriger automatiquement toutes les petites erreurs détectées lors de `uv run ruff check --fix`.
