@@ -45,4 +45,4 @@ class Author(User):
 
         :return: une chaîne de caractère possédant toutes les données de la classe
         """
-        return f"{self.first_name} {self.last_name} {self.book_title} {self.book_summary} {self.biography} {self.user_street} {self.user_postal_code} {self.user_city} {self.user_email} {self.user_phone}"
+        return f""{self.id_author} {self.first_name} {self.last_name} {self.biography} {self.user_street} {self.user_postal_code} {self.user_city} {self.user_email} {self.user_phone}"
